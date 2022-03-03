@@ -3,6 +3,8 @@
  
 ## **Samyak Jain (2019098) and Sarthak Johari (2019099)**
 
+## Dataset
+Link to dataset: https://drive.google.com/drive/folders/1cUzliAfZho9zO5rCfqEBaRDisJv3vibZ?usp=sharing
 ## Q1 
 
 We have used the ‘os’ library of python to traverse and pick files from the data directory. The text of each file is read and is preprocessed and finally, we have tokens corresponding to each file.
