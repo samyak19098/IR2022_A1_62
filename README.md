@@ -1,18 +1,22 @@
 # IR2022_A1_62
  Assignment-1 for the course CSE508:Information Retreival
  
-Samyak Jain (2019098) and Sarthak Johari (2019099)
+## **Samyak Jain (2019098) and Sarthak Johari (2019099)**
 
+## Dataset
+Link to dataset: https://drive.google.com/drive/folders/1cUzliAfZho9zO5rCfqEBaRDisJv3vibZ?usp=sharing
 ## Q1 
+
+We have used the ‘os’ library of python to traverse and pick files from the data directory. The text of each file is read and is preprocessed and finally, we have tokens corresponding to each file.
 
 ### Preprocessing :
 
 After extracting the text from the files we performed the following preprocessing steps on the text to convert them into valid tokens which would be later used in making the unigram inverted index data structure.
 
 1) First we converted the text to lowercase. 
-2) Text tends to have the shortened form of a combination of two words For Example “I will” is written as “I’ll” to fix this issue we have fixed the contractions from the text.
-3) We then performed tokenization on the text
-4) Only alphanumeric tokens were kept and the rest were discarded.
+2) Text tends to have the shortened form of a combination of two words For Example “I will” is written as “I’ll” to fix this issue we have fixed the contractions from the text. We expand the contractions for eg. convert “don’t” to “do not”.
+3) We then performed word tokenization on the text.
+4) For all tokens, non-alphanumeric characters were removed from them.
 5) We then removed all the stopwords from our tokens.
 6) Punctuations and blank spaces were removed from the tokens and finally we had our valid sets of tokens.
 
@@ -29,10 +33,9 @@ If absent we added the token to the index and initialized it with the document I
 If present we checked if the document Id was present in the posting of that token.	
 If absent we added the document Id in the posting of the token and incremented the frequency count by 1.
 
-After this we first sorted the entire data structures by the term or the token and converted it to alphabetical order
+After this we first sorted the entire data structures by the term in alphabetical order.
 
-Then, we sorted the each individual posting list in ascending order of the document ids and finally our inverted index was ready   
-
+Then, we sorted the each individual posting list in ascending order of the document ids and finally our inverted index was ready
 
 #### 2) Creating the logical operators query
 
@@ -79,7 +82,17 @@ Here we first perform the NOT operator on the second posting list. We then perfo
 
 Before performing the logical operations. The input query was preprocessed in the similar way we pre-processed the text that was present in the files. The query was converted into a valid token and then used to perform the operations.
 
+Also if on preprocessing the query and its conversions into query tokens, if the number of operators is not suitable with the number of query tokens(i.e. no. of operators != no. query tokens - 1), we do not process anything in that case and return an error message.
 
+### Assumptions
+- We perform our query in a sequential order i.e from left to right. Also, no precedence is given to operators and the query execution order is not decided by any optimization.
+- We assume that the number of operators given are in accordance with the number of query tokens generated after the preprocessing of the query. If the number of operations given is not equal to the number of preprocessed query tokens minus 1, then the program terminates.
+- We have only counted the comparisons that take place during the merging operation of the postings i.e only where merging algorithm is perform, which is not including the not operation.
+- We do not perform any lemmatization or stemming of the file’s tokens or the query’s tokens.
+- During the input when the operators are entered they must be enclosed by ‘[]’ and are case sensitive (should be enter in capital letters).
+- The input query sequence should not be an empty string and the operator sequence should not be empty.
+
+---
 
 ## Q2
 
@@ -129,10 +142,15 @@ We first preprocess the given data, by preprocessing each file’s text and conv
 
 The phrase query input is firstly preprocessed every time using the same set of preprocessing operations used to preprocess the file text. The operations are also performed in the same order as they are for the file texts. The phrase query string is converted in query tokens and they are used for phrase query searching purposes.
 
+- **Note** : As we are removing the stop words from the text, then if our query is “good morning” and if suppose document with document ID 10 contains a sentence “Good is morning”. Then as ‘is’ is a stopword it will be removed and document ID 10 will be a valid answer for our query. 
 
+#### Assumptions
 
+- If we enter a query with more than 5 tokens, our program returns with a message and no query is performed.
+- In the case where there is a token in the phrase which is not present in the index, the program returns with a message and returns result 0, []. (0 no. of docs and [] empty list of doc names).
+- Input phrase string should not be empty.
 
-
+---
 
 
 
