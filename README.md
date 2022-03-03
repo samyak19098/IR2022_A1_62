@@ -73,7 +73,13 @@ Here we simply returned all the document IDs that are not present in the posting
 
 ##### d) AND_NOT
 
-Here we first check if the first posting list is empty or not. If yes we return an empty array as an answer. If no, we perform the NOT operator on the second posting list and check if the answer is empty or not. If yes, we return an empty array as an answer, if no, we perform the AND operator between the first posting list and output of the NOT operation on the second posting list. 
+For implementing AND NOT we checked if the first posting was empty or not, if yes we returned an empty array as the answer. If not, we then implemented a merge algorithm. 
+
+For the merge operation we kept two pointers one for each posting list and then traversed through the posting lists and compared the document ids where the pointers are during their traversal.
+1. If the document IDs are the same we just incremented the pointers.
+2. If the pointer in the first posting list is at a value less than the other pointer in the second posting list. We added the document ID of the first posting list to our answer and incremented the first pointer by 1.
+3. Finally if the pointer of the first posting list has not yet reached its end, and the other pointer has. We add all the remaining document IDs of the first posting list to the answer array.
+
 
 ##### e) OR_ NOT 
 
