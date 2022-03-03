@@ -61,6 +61,8 @@ For the merge operation we kept two pointers one for each posting list and then 
 If the document ids are the same that means the tokens are present in both the files we append this document id in our answer array that we maintain. Then the pointers are incremented by 1.
 If the value at first pointer is smaller than the value at second pointer we increment the first pointer by 1 and add the document ID  at the pointer in our answer array and vice versa.
 
+Finally we add all the remaining document IDs from the pointer that has not yet reached the end of its posting list
+
 
 ##### c) NOT
 
@@ -77,6 +79,55 @@ Here we first perform the NOT operator on the second posting list. We then perfo
 
 Before performing the logical operations. The input query was preprocessed in the similar way we pre-processed the text that was present in the files. The query was converted into a valid token and then used to perform the operations.
 
+
+
+## Q2
+
+We have used the ‘os’ library of python to traverse and pick files from the data directory. The text of each file is read and is preprocessed and finally, we have tokens corresponding to each file.
+
+### Preprocessing :
+
+1) The text is converted to lowercase.
+2) Word tokenization is performed on the text.
+3) Stopwords are removed from the tokens.
+4) Punctuation marks have been removed from the tokens.
+5) Blank space has been removed from the tokens.
+
+These operations are performed in order for all the text of all the files to get a list of tokens for each file.
+
+### Methodology :
+
+#### Creating positional index
+
+Two dictionaries have been maintained, one which contains the details of the document IDs and the respective positions in which they occur in the document; and the other one maintains the document frequency for each term i.e - the number of documents containing that term. 
+
+The method followed for positional index construction is as follows:
+Iterate over all the documents and for each document, further, iterate over the list of tokens of that document.
+For each token in a document, if it does not already exist in the index terms, we add the token as a term in our index and also add the corresponding document ID to the dictionary associated with each term and term’s position to the list associated with each documentID in a term’s dictionary.
+If the token already exists in the index terms, we simply check that if the current document ID exists in the dictionary associated with the term. If not, we add it to that and also add the position to the document’s associated list of positions. If it exists, we simply add the term’s position to the document’s position list.
+Finally, we sort this in alphabetical order wrt terms and also sort the respective document list and each document’s position list. We convert this whole structure to a nested list format where there is a dictionary with the terms as keys and the nested list of document IDs and positions.
+The frequency for each term has been separately maintained in a dictionary throughout this process.
+The structure of the positional index list is like : {‘term1’ : [[doc1, [pos11, pos21, pos31]], [doc2, [pos12, pos22, pos32]]], ‘term2’ : [[doc3, [pos13, pos23, pos33]]], ‘term3’ : …….}
+And the frequency dict: {‘term1’:freq1, ‘term2’:freq2, ……..}
+
+#### Phrase Query 
+
+1) For performing the phrase query, we have to implement two levels of searching. Firstly we have to search such documents wherein the query tokens occur and then, in the common document’s positions lists we have to check if all query tokens occur consecutively together in the proper specified order. 
+
+2) For arriving at the common document wherein all the query tokens occur, firstly we will make ‘n’ outer pointers (where n = no. of query tokens). These outer pointers iterate over the nested list associated with each term and find the common document ID where all the terms occur. In each iteration, we check whether each outer_pointer points to the same document ID, if so then that document may be a document of interest for us and we go into searching the positions list of that document ID for each term and after doing that, we increment each outer_pointer by one. Otherwise, we increment that outer_pointer which corresponds to the lowest document ID magnitude wise.
+
+3) Now for inner level searching of the positions list of the common document ID for a term (which is a document of interest for us acc to the previous point), we maintain ‘n’ inner_pointers which we’ll use to iterate over the positions list of each term’s common document ID. At every iteration, we check if position values pointed to by every inner pointer (starting from the second pointer) is one more than position values pointed to by the previous inner_pointer i.e - we check if the positions values are consecutive and in an increasing order starting from the position value of the first term in the query tokens. If so, then the current document ID whose positions list we are searching in is a valid document ID for our answer. 
+
+4) Otherwise, we follow an algorithm in which we compare the jth inner_pointer’s position value with the (j -1)th and while it is lesser, we keep on incrementing the jth inner pointer. Once it is greater than the (j-1)th inner_pointer’s value, we check if it is just one more than the (j-1)th inner_pointer’s value. If so, we increment the value of j and otherwise, we set the value of j = 1 and move the 0th inner_pointer ahead by one.
+
+This way, we build our set of valid document IDs wherein the query phrase occurs.
+
+#### General Implementation 
+
+We traverse the data directory and read the individual file’s texts. Also, we have made a mapping for document ID to Name for our use.
+We first preprocess the given data, by preprocessing each file’s text and converting it to a list of tokens corresponding to each file. Using these tokens, a positional index is built which includes the building of both the index structure holding the documentIDs, term positions for all the terms and also, the frequency dictionary which contains the document frequency of each term.
+
+The phrase query input is firstly preprocessed every time using the same set of preprocessing operations used to preprocess the file text. The operations are also performed in the same order as they are for the file texts. The phrase query string is converted in query tokens and they are used for phrase query searching purposes.
 
 
 
