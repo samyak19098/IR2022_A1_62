@@ -5,14 +5,16 @@ Samyak Jain (2019098) and Sarthak Johari (2019099)
 
 ## Q1 
 
+We have used the ‘os’ library of python to traverse and pick files from the data directory. The text of each file is read and is preprocessed and finally, we have tokens corresponding to each file.
+
 ### Preprocessing :
 
 After extracting the text from the files we performed the following preprocessing steps on the text to convert them into valid tokens which would be later used in making the unigram inverted index data structure.
 
 1) First we converted the text to lowercase. 
-2) Text tends to have the shortened form of a combination of two words For Example “I will” is written as “I’ll” to fix this issue we have fixed the contractions from the text.
-3) We then performed tokenization on the text
-4) Only alphanumeric tokens were kept and the rest were discarded.
+2) Text tends to have the shortened form of a combination of two words For Example “I will” is written as “I’ll” to fix this issue we have fixed the contractions from the text. We expand the contractions for eg. convert “don’t” to “do not”.
+3) We then performed word tokenization on the text.
+4) For all tokens, non-alphanumeric characters were removed from them.
 5) We then removed all the stopwords from our tokens.
 6) Punctuations and blank spaces were removed from the tokens and finally we had our valid sets of tokens.
 
@@ -128,11 +130,3 @@ We traverse the data directory and read the individual file’s texts. Also, we 
 We first preprocess the given data, by preprocessing each file’s text and converting it to a list of tokens corresponding to each file. Using these tokens, a positional index is built which includes the building of both the index structure holding the documentIDs, term positions for all the terms and also, the frequency dictionary which contains the document frequency of each term.
 
 The phrase query input is firstly preprocessed every time using the same set of preprocessing operations used to preprocess the file text. The operations are also performed in the same order as they are for the file texts. The phrase query string is converted in query tokens and they are used for phrase query searching purposes.
-
-
-
-
-
-
-
-
