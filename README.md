@@ -39,7 +39,7 @@ Then, we sorted the each individual posting list in ascending order of the docum
 
 #### 2) Creating the logical operators query
 
-##### a) AND 
+#### a) AND 
 
 We wanted to perform the logical AND operator to perform the query between the postings of two tokens. We made a function which took the posting list of both the tokens. Then we performed the intersection of the two by performing the merge algorithm. The fact that the posting lists are already sorted makes the merge operation much more efficient and simpler.
 
@@ -52,7 +52,7 @@ If the value at first pointer is smaller than the value at second pointer we inc
 
 
 
-##### b) OR 
+#### b) OR 
 
 To perform the logical OR operator. We checked the posting of both the tokens. 
 
@@ -67,11 +67,11 @@ If the value at first pointer is smaller than the value at second pointer we inc
 Finally we add all the remaining document IDs from the pointer that has not yet reached the end of its posting list
 
 
-##### c) NOT
+#### c) NOT
 
 Here we simply returned all the document IDs that are not present in the posting list that was given as the input. If the posting list is empty then all the document ids would be returned.
 
-##### d) AND_NOT
+#### d) AND_NOT
 
 For implementing AND NOT we checked if the first posting was empty or not, if yes we returned an empty array as the answer. If not, we then implemented a merge algorithm. 
 
@@ -81,7 +81,7 @@ For the merge operation we kept two pointers one for each posting list and then 
 3. Finally if the pointer of the first posting list has not yet reached its end, and the other pointer has. We add all the remaining document IDs of the first posting list to the answer array.
 
 
-##### e) OR_ NOT 
+#### e) OR_ NOT 
 
 Here we first perform the NOT operator on the second posting list. We then perform the OR operation on the first posting list and output obtained after the NOT operator of the second posting list.
 
